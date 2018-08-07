@@ -12,12 +12,12 @@ class block_clist extends block_base {
             return $this->content;
         }
 
+        // $this->page->requires->js_call_amd('block_clist/refresh', 'reload');
         $renderable = new \block_clist\output\main();
         $renderer = $this->page->get_renderer('block_clist');
         $this->content = new stdClass();
         $this->content->text = $renderer->render($renderable);
         $this->content->footer = '';
-        $this->page->requires->js_call_amd('block_clist/refresh', 'refresh');
         return $this->content;
     }
 }
