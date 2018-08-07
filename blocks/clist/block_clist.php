@@ -14,7 +14,6 @@ class block_clist extends block_base {
 
         $renderable = new \block_clist\output\main();
         $renderer = $this->page->get_renderer('block_clist');
-
         $this->content = new stdClass();
         $this->content->text = $renderer->render($renderable);
         $this->content->footer = '';
