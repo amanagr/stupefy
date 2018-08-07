@@ -599,7 +599,7 @@ $CFG->admin = 'admin';
 // $CFG->debugimap = true;
 //
 // Prevent JS caching
-// $CFG->cachejs = false; // NOT FOR PRODUCTION SERVERS!
+$CFG->cachejs = false; // NOT FOR PRODUCTION SERVERS!
 //
 // Restrict which YUI logging statements are shown in the browser console.
 // For details see the upstream documentation:

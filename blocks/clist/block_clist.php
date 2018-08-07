@@ -18,7 +18,7 @@ class block_clist extends block_base {
         $this->content = new stdClass();
         $this->content->text = $renderer->render($renderable);
         $this->content->footer = '';
-
+        $this->page->requires->js_call_amd('block_clist/refresh', 'refresh');
         return $this->content;
     }
 }

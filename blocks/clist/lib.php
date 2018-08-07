@@ -12,7 +12,7 @@ function get_all_courses() {
     foreach ($courselist as $course) {
         array_push($courses, "<a title=\"" . format_string($course->shortname, true) . "\" ".
                 "href=\"{$CFG->wwwroot}/course/view.php?id={$course->id}\">"
-                .format_string($course->fullname, true). "</a>"."<br>");
+                .format_string($course->fullname, true). "</a>".rand()."<br>");
     }
         if (empty($courses)) {
             return get_string("noclist", "block_clist");

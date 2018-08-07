@@ -13,8 +13,11 @@ class external extends external_api {
         global $PAGE;
         $renderer = $PAGE->get_renderer('block_clist');
         $block = new \block_clist\output\main();
+        print_object($block);
+        die();
         return $block->export_for_template($renderer);
     }
     public static function get_block_data_returns() {
+
     }
 }

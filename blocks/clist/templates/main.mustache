@@ -1,9 +1,15 @@
 <section>
-<div>
+<div data-region="clist">
     <ul>
     {{#courses}}
     <li>{{{.}}}</li>
     {{/courses}}
     <ul>
+    <button id='refresh'>{{#str}}refresh{{/str}}</button>
 </div>
 </section>
+{{#js}}
+    require(['block_clist/refresh'], function(refresh) {
+    refresh.refresh();
+});
+{{/js}}
