@@ -1,107 +1,66 @@
 <section>
-<style type="text/css">
-.container-clist {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 1.66667;
-  width: 75%;
-  margin: 3rem auto;
-}
-.h2-clist {
-  color: #345f90;
-  font-size: 24px;
-  line-height: 1.25;
-  font-family: "Roboto Slab", serif;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.tab-slider--nav {
-  width: 100%;
-  float: left;
-  margin-bottom: 20px;
-}
-.tab-slider--tabs {
-  display: block;
-  float: left;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  position: relative;
-  border-radius: 35px;
-  overflow: hidden;
-  background: #fff;
-  height: 35px;
-  user-select: none;
-}
-.tab-slider--tabs:after {
-  content: "";
-  width: 50%;
-  background: #345f90;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: all 250ms ease-in-out;
-  border-radius: 35px;
-}
-.tab-slider--tabs.slide:after {
-  left: 50%;
-}
-.tab-slider--trigger {
-  font-size: 12px;
-  line-height: 1;
-  font-weight: bold;
-  color: #345f90;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 11px 20px;
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-  display: inline-block;
-  transition: color 250ms ease-in-out;
-  user-select: none;
-}
-.tab-slider--trigger.active {
-  color: #fff;
-}
-.tab-slider--body {
-  margin-bottom: 20px;
-}
-
-</style> 
-<div class="container-clist">
-    <div class="tab-slider--nav">
-        <ul class="tab-slider--tabs">
-            <li class="tab-slider--trigger active" rel="tab1">Courses</li>
-            <li class="tab-slider--trigger" rel="tab2">Categories</li>
-        </ul>
-    </div>
-    <div class="tab-slider--container">
-        <div id="tab1" class="tab-slider--body">
-            <h2 class='h2-clist'>Enrolled Courses</h2>
-            <div data-region="clist">
-              <ul>
-                {{#courses}}
-                  <li>{{{.}}}</li>
-                {{/courses}}
-              <ul>
+    <div class="container-clist">
+        <section class="tabs t-tabs" id="fancyTabWidget">
+            <ul class="nav nav-tabs fancyTabs" role="tablist">
+                <li class="tab fancyTab active">
+                    <div class="arrow-down">
+                        <div class="arrow-down-inner">
+                        </div>
+                    </div>
+                    <a aria-controls="tabBody0" aria-selected="true" data-toggle="tab" href="#tabBody0" id="tab0" role="tab" tabindex="0">
+                        <span class="fa fa-desktop">
+                        </span>
+                        <span class="content-to-hide">
+                            Courses
+                        </span>
+                    </a>
+                    <div class="whiteBlock">
+                    </div>
+                </li>
+                <li class="tab fancyTab">
+                    <div class="arrow-down">
+                        <div class="arrow-down-inner">
+                        </div>
+                    </div>
+                    <a aria-controls="tabBody1" aria-selected="true" data-toggle="tab" href="#tabBody1" id="tab1" role="tab" tabindex="0">
+                        <span class="fa fa-firefox">
+                        </span>
+                        <span class="content-to-hide">
+                            Categories
+                        </span>
+                    </a>
+                    <div class="whiteBlock">
+                    </div>
+                </li>
+            </ul>
+            <div aria-live="polite" class="tab-content fancyTabContent" id="myTabContent">
+                <div aria-hidden="false" aria-labelledby="tab0" class="tab-pane fade active in" id="tabBody0" role="tabpanel" tabindex="0">
+                    <div>
+                <div data-region="clist">
+                    <ul>
+                        {{#courses}}
+                        <li>
+                            {{{.}}}
+                        </li>
+                        {{/courses}}
+                    </ul>
+                </div>
+                    </div>
+                </div>
+                <div aria-hidden="true" aria-labelledby="tab1" class="tab-pane fade" id="tabBody1" role="tabpanel" tabindex="0">
+                <div data-region="clist">
+                    <ul>
+                        {{#categories}}
+                        <li>
+                            {{{.}}}
+                        </li>
+                        {{/categories}}
+                    </ul>
+                </div>
+                </div>
             </div>
-        </div>
-        <div id="tab2" class="tab-slider--body">
-            <h2 class='h2-clist'>Categories</h2>
-            <div data-region="clist">
-              <ul>
-                {{#categories}}
-                  <li>{{{.}}}</li>
-                {{/categories}}
-              <ul>
-            </div>
-        </div>
+        </section>
     </div>
-</div>
-<!-- <button id='refresh'>{{#str}}refresh{{/str}}</button> -->
 </section>
 {{#js}}
     require(['block_clist/refresh'], function(refresh) {

@@ -11,8 +11,8 @@ class block_clist extends block_base {
         if ($this->content != null) {
             return $this->content;
         }
-
-        // $this->page->requires->js_call_amd('block_clist/refresh', 'reload');
+        $cssfilename = '/blocks/clist/styles.css';
+        $this->page->requires->css($cssfilename);
         $renderable = new \block_clist\output\main();
         $renderer = $this->page->get_renderer('block_clist');
         $this->content = new stdClass();
