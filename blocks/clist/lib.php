@@ -17,7 +17,7 @@ function get_all_courses($search_text = '') {
                 .format_string($course->fullname, true). "</a>");
     }
         if (empty($courses)) {
-            return get_string("noclist", "block_clist");
+            return get_string('nocourse', "block_clist");
         } else {
             return $courses;
         }
@@ -26,21 +26,21 @@ function get_all_courses($search_text = '') {
 function get_all_categories($search_text = '') {
 
     global $DB, $CFG;
-    // $query = "SELECT id, fullname, shortname, summary from {course};";
-    // $courselist = $DB->get_records_sql($query);
-    $categories = coursecat::get(0)->get_children();
+    $query = "SELECT id, name from {course_categories} WHERE name LIKE '%".$search_text."%';";
+    $categorylist = $DB->get_records_sql($query);
+    //$categories = coursecat::get(0)->get_children();
 
     // print_object($categories);
     // die();
-    $courses = array();
-    foreach ($categories as $course) {
-        array_push($courses, "<a title=\"" . format_string($course->name, true) . "\" ".
-                "href=\"{$CFG->wwwroot}/course/index.php?categoryid={$course->id}\">"
-                .format_string($course->name, true). "</a>");
+    $category = array();
+    foreach ($categorylist as $single_category) {
+        array_push($category, "<a title=\"" . format_string($single_category->name, true) . "\" ".
+                "href=\"{$CFG->wwwroot}/course/index.php?categoryid={$single_category->id}\">"
+                .format_string($single_category->name, true). "</a>");
     }
-        if (empty($courses)) {
-            return get_string("noclist", "block_clist");
+        if (empty($category)) {
+            return get_string('nocategory', "block_clist");
         } else {
-            return $courses;
+            return $category;
         }
 }

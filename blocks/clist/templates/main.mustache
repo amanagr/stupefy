@@ -2,7 +2,7 @@
     <div class="container-clist">
         <section class="tabs t-tabs" id="fancyTabWidget">
             <ul class="nav nav-tabs fancyTabs" role="tablist">
-                <li class="tab fancyTab active">
+                <li id='course_clist' class="tab fancyTab active">
                     <div class="arrow-down">
                         <div class="arrow-down-inner">
                         </div>
@@ -15,7 +15,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="tab fancyTab">
+                <li id='category_clist' class="tab fancyTab">
                     <div class="arrow-down">
                         <div class="arrow-down-inner">
                         </div>
@@ -65,5 +65,6 @@
 {{#js}}
     require(['block_clist/refresh'], function(refresh) {
     refresh.reload();
+
 });
 {{/js}}

@@ -42,17 +42,32 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/notification'], function(
                     $("li.fancyTab").width('50%');
                 }
             });
+            $('#search_course').keydown(function(e)
+            {
+                if(e.keyCode==13)
+                {
+                    $('#search_course_button').trigger('click');
+                }
+            })
+            $('#search_category').keydown(function(e)
+            {
+                if(e.keyCode==13)
+                {
+                    $('#search_category_button').trigger('click');
+                }
+            })
             // Add a click handler to the button.
             $('#search_course_button').on('click', function() {
                 // First - reload the data for the page.
                 var promises = ajax.call([{
                     methodname: 'block_clist_get_block_data',
                     args: {
-                        search_text: $('#search_course').val()
+                        search_text: $('#search_course').val(),
+                        tab: 'course'
                     }
                 }]);
                 promises[0].done(function(data) {
-                    console.log(data);
+                    // console.log(data);
                     // We have the data - lets re-render the template with it.
                     templates.render('block_clist/main', data).done(function(html, js) {
                         $('[data-region="clist"]').replaceWith(html);
@@ -61,6 +76,28 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/notification'], function(
                     }).fail(notification.exception);
                 }).fail(notification.exception);
             });
+            $('#search_category_button').on('click',function()
+            {
+                var promises = ajax.call([{
+                    methodname: 'block_clist_get_block_data',
+                    args: {
+                        search_text: $('#search_category').val(),
+                        tab: 'category'
+                    }
+                }]);
+                promises[0].done(function(data) {
+                    // console.log(data);
+                    // We have the data - lets re-render the template with it.
+                    templates.render('block_clist/main', data).done(function(html, js) {
+                        $('[data-region="clist"]').replaceWith(html);
+                        // And execute any JS that was in the template.
+                        templates.runTemplateJS(js);
+                        $(document).ready(function(){
+                            $("#tab1").trigger("click");
+                        });
+                    }).fail(notification.exception);
+                }).fail(notification.exception); 
+            })
         }
     };
 });
