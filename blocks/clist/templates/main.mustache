@@ -1,4 +1,4 @@
-<section>
+<section data-region='clist'>
     <div class="container-clist">
         <section class="tabs t-tabs" id="fancyTabWidget">
             <ul class="nav nav-tabs fancyTabs" role="tablist">
@@ -14,8 +14,6 @@
                             Courses
                         </span>
                     </a>
-                    <div class="whiteBlock">
-                    </div>
                 </li>
                 <li class="tab fancyTab">
                     <div class="arrow-down">
@@ -29,14 +27,12 @@
                             Categories
                         </span>
                     </a>
-                    <div class="whiteBlock">
-                    </div>
                 </li>
             </ul>
             <div aria-live="polite" class="tab-content fancyTabContent" id="myTabContent">
                 <div aria-hidden="false" aria-labelledby="tab0" class="tab-pane fade active in" id="tabBody0" role="tabpanel" tabindex="0">
                     <div>
-                <div data-region="clist">
+                <div data-region="courses">
                     <ul>
                         {{#courses}}
                         <li>
@@ -45,10 +41,12 @@
                         {{/courses}}
                     </ul>
                 </div>
+                <input type='text' id='search_course'>
+                <button id="search_course_button">Go</button>
                     </div>
                 </div>
                 <div aria-hidden="true" aria-labelledby="tab1" class="tab-pane fade" id="tabBody1" role="tabpanel" tabindex="0">
-                <div data-region="clist">
+                <div data-region="categories">
                     <ul>
                         {{#categories}}
                         <li>
@@ -57,6 +55,8 @@
                         {{/categories}}
                     </ul>
                 </div>
+                <input type='text' id='search_category'>
+                <button id="search_category_button">Go</button>
                 </div>
             </div>
         </section>

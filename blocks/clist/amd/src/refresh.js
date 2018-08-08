@@ -42,23 +42,17 @@ define(['jquery', 'core/ajax', 'core/templates', 'core/notification'], function(
                     $("li.fancyTab").width('50%');
                 }
             });
-            $(window).load(function() {
-                $('.fancyTabs').each(function() {
-                    var highestBox = 0;
-                    $('.fancyTab a', this).each(function() {
-                        if ($(this).height() > highestBox) highestBox = $(this).height();
-                    });
-                    $('.fancyTab a', this).height(highestBox);
-                });
-            });
             // Add a click handler to the button.
-            $('#refresh').on('click', function() {
+            $('#search_course_button').on('click', function() {
                 // First - reload the data for the page.
                 var promises = ajax.call([{
                     methodname: 'block_clist_get_block_data',
-                    args: {}
+                    args: {
+                        search_text: $('#search_course').val()
+                    }
                 }]);
                 promises[0].done(function(data) {
+                    console.log(data);
                     // We have the data - lets re-render the template with it.
                     templates.render('block_clist/main', data).done(function(html, js) {
                         $('[data-region="clist"]').replaceWith(html);

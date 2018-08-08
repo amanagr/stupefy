@@ -2,15 +2,15 @@
 require_once($CFG->libdir . '/enrollib.php');
 include_once($CFG->libdir . '/coursecatlib.php');
 
-function get_all_courses() {
+function get_all_courses($search_text = '') {
     global $DB, $CFG;
-    // $query = "SELECT id, fullname, shortname, summary from {course};";
-    // $courselist = $DB->get_records_sql($query);
-    $courselist = enrol_get_my_courses("*");
+    if ($search_text != '') {
+        $query = "SELECT id, fullname, shortname, summary from {course} WHERE fullname LIKE '%".$search_text."%';";
+        $courselist = $DB->get_records_sql($query);
+    } else {
+        $courselist = enrol_get_my_courses("*");
+    }
     $courses = array();
-
-    // print_object($courses);
-    // die();
     foreach ($courselist as $course) {
         array_push($courses, "<a title=\"" . format_string($course->shortname, true) . "\" ".
                 "href=\"{$CFG->wwwroot}/course/view.php?id={$course->id}\">"
@@ -23,7 +23,7 @@ function get_all_courses() {
         }
 }
 
-function get_all_categories() {
+function get_all_categories($search_text = '') {
 
     global $DB, $CFG;
     // $query = "SELECT id, fullname, shortname, summary from {course};";
