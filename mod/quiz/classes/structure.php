@@ -24,6 +24,8 @@
 
 namespace mod_quiz;
 defined('MOODLE_INTERNAL') || die();
+require_once(__DIR__ . '/../../../config.php');
+require_once($CFG->libdir.'/classes/collator.php');
 
 /**
  * Quiz structure class.
@@ -115,7 +117,10 @@ class structure {
     public function get_question_by_id($questionid) {
         return $this->questions[$questionid];
     }
-
+    public function get_all_questions()
+    {
+        return $this->questions;
+    }
     /**
      * Get the information about the question in a given slot.
      * @param int $slotnumber the index of the slot in question.
@@ -316,6 +321,7 @@ class structure {
     public function get_slots() {
         return $this->slots;
     }
+
 
     /**
      * Is this slot the first one on its page?
@@ -639,6 +645,8 @@ class structure {
         $this->sections = $DB->get_records('quiz_sections', array('quizid' => $quiz->id), 'firstslot ASC');
         $this->populate_slots_with_sections();
         $this->populate_question_numbers();
+        // print_object($this->questions);
+        // die();
     }
 
     /**
@@ -1037,6 +1045,14 @@ class structure {
         $DB->update_record('quiz_sections', $section);
     }
 
+
+
+    //new function made
+    public function has_section_heading($firstslot,$quizid){
+        global $DB;
+        $heading = $DB->get_record_sql("Select heading from {quiz_sections} where quizid = ".$quizid." AND firstslot = ".$firstslot);
+        return $heading;
+    }
     /**
      * Change the shuffle setting for a section.
      * @param int $id the id of the section to change.
@@ -1085,4 +1101,83 @@ class structure {
 
         return isset($this->slottags[$slotid]) ? $this->slottags[$slotid] : [];
     }
+
+    public function cmp($first,$second){
+        //print_object($first->subject,$second->subject);
+    return $first->subject > $second->subject;
+    }
+
+    public function sort_questions_by_subjectid()
+    {
+        uasort($this->questions,array($this,'cmp'));  
+    }
+
+
+    public function add_subject_to_questions()
+    {
+        global $DB;
+        $questionsarr = $this->get_all_questions();
+        // $idx = array_keys($questionsarr)[0];
+        // print_object($questionsarr[$idx]);
+        //die();
+        $questionidarr = array_keys($questionsarr);
+        // print_object($questionidarr)[$i];
+        // die();
+        for($i=0;$i<$this->get_question_count();$i++)
+        {
+            $idx = array_keys($questionsarr)[$i];
+            $subjectarr = $DB->get_records_sql("Select subject from {question_filters} where questionid = ".$questionidarr[$i]);
+            $subjectid = array_keys($subjectarr)[0];
+            //print_object($subjectid);
+            $ques = (array)($questionsarr[$idx]);
+            //print_object($ques);
+            $ques['subject'] = $subjectid;
+            //print_object($ques);
+            $questionsarr[$idx] = (object)($ques);
+            //print_object($questionsarr[$idx]);
+        }
+        //print_object($questionsarr);
+        $this->questions = $questionsarr;
+        //print_object($this->questions);
+        $this->sort_questions_by_subjectid();
+        //print_object($this->questions);
+    }
+
+    public function set_sections($quiz)
+{
+    global $DB;
+   //print_object($this->questions);
+    $subjectarr = [];
+    foreach($this->questions as $array)
+    {
+        array_push($subjectarr,$array->subject);
+    }
+    //print_object($subjectarr);
+    if($this->has_questions())
+    {
+      $sections = $this->get_sections();
+      $sectionids = array_keys($sections);
+      for($i=1;$i<sizeof($sectionids);$i++)
+     {
+        $this->remove_section_heading($sectionids[$i]);
+     }
+     $heading1 = $DB->get_record_sql("Select type from {subject} where id = ".$subjectarr[0])->type;
+     //print_object($heading1);
+     $this->set_section_heading($sectionids[0],$heading1);
+     $subjectid = $subjectarr[0];
+     //print_object(sizeof($subjectarr));
+     for($i=1;$i<sizeof($subjectarr);$i++)
+     {
+        //print_object($subjectarr[$i]);
+        if(!($subjectarr[$i]==$subjectid))
+        {
+            //print_object("hello");
+            $subjectid = $subjectarr[$i];
+            $heading = $DB->get_record_sql("Select type from {subject} where id = ".$subjectarr[$i])->type;
+            $this->add_section_heading($i+1,$heading);
+        }
+     }
+   }
+} 
+
 }
